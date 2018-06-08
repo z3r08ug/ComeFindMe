@@ -76,7 +76,10 @@ public class MessagesActivity extends AppCompatActivity
     protected void onStop()
     {
         super.onStop();
-        firebaseRecyclerAdapter.stopListening();
+        if (firebaseRecyclerAdapter != null)
+        {
+            firebaseRecyclerAdapter.stopListening();
+        }
     }
 
     private void displayAllUsersPosts()
@@ -93,7 +96,7 @@ public class MessagesActivity extends AppCompatActivity
             @Override
             protected void onBindViewHolder(@NonNull MainActivity.PostsViewHolder holder, final int position, @NonNull Posts model)
             {
-                Log.d(TAG, "onBindViewHolder: model: "+model);
+                Log.d(TAG, "onBindViewHolder: model: " + model);
 
                 final String postKey = getRef(position).getKey();
 
