@@ -1,0 +1,46 @@
+{
+  "project_info": {
+    "project_number": "645319317727",
+    "firebase_url": "https://comefindme-9f585.firebaseio.com",
+    "project_id": "comefindme-9f585",
+    "storage_bucket": "comefindme-9f585.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:645319317727:android:6c39192df2dcf8f6",
+        "android_client_info": {
+          "package_name": "com.example.cv0318.comefindme"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "645319317727-eirmpsqr6flcpfm28kf6jc5vv6f3iqec.apps.googleusercontent.com",
+          "client_type": 3
+        },
+        {
+          "client_id": "645319317727-eirmpsqr6flcpfm28kf6jc5vv6f3iqec.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCFotazXRAFUgs5FfpAYO_HNCvlIfzLN7c"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
