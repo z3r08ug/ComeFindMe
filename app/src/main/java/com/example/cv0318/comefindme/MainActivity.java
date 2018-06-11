@@ -46,7 +46,7 @@ public class MainActivity extends AppCompatActivity
     private DatabaseReference usersRef, postsRef, likesRef;
     private CircleImageView civNavProfilePic;
     private TextView tvNavUserFullName;
-    private String currentUserId;
+    private String currentUserId, currentUsername;
     private ImageButton ibAddNewPost;
     private FirebaseRecyclerAdapter<Posts, PostsViewHolder> firebaseRecyclerAdapter;
     private boolean likeChecker = false;
@@ -104,6 +104,10 @@ public class MainActivity extends AppCompatActivity
                     {
                         String image = dataSnapshot.child("profile_pic").getValue().toString();
                         Picasso.get().load(image).placeholder(R.drawable.profile).into(civNavProfilePic);
+                    }
+                    if (dataSnapshot.hasChild("fullName"))
+                    {
+                        currentUsername = dataSnapshot.child("fullName").getValue().toString();
                     }
                     else
                     {
@@ -408,6 +412,7 @@ public class MainActivity extends AppCompatActivity
     private void sendUserToProfileActivity()
     {
         Intent intent = new Intent(MainActivity.this, ProfileActivity.class);
+        intent.putExtra("uid", currentUserId);
         startActivity(intent);
     }
 

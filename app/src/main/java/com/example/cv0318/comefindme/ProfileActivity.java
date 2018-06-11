@@ -1,8 +1,13 @@
 package com.example.cv0318.comefindme;
 
+import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.Toolbar;
+import android.util.Log;
+import android.view.View;
+import android.widget.Button;
 import android.widget.TextView;
 
 import com.google.firebase.auth.FirebaseAuth;
@@ -17,11 +22,14 @@ import de.hdodenhof.circleimageview.CircleImageView;
 
 public class ProfileActivity extends AppCompatActivity
 {
-    private TextView tvStatus, tvUsername, tvFullName, tvCountry, tvDoB, tvGender, tvRelationship;
+    private static final String TAG = String.format("%s_TAG", ProfileActivity.class.getSimpleName());
+    private TextView tvStatus, tvUsername, tvFullName, tvCountry, tvDoB, tvGender, tvRelationship, tvAge, tvLocation, tvCategory;
     private CircleImageView civProfilePic;
+    private Button btnMessage;
+    private Toolbar toolbar;
 
     private FirebaseAuth m_auth;
-    private String currentUserId;
+    private String uid, username;
     private DatabaseReference usersRef;
 
     @Override
@@ -29,11 +37,12 @@ public class ProfileActivity extends AppCompatActivity
     {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_profile);
+        
+        uid = getIntent().getStringExtra("uid");
+        Log.d(TAG, "onCreate: uid: "+uid);
 
         m_auth = FirebaseAuth.getInstance();
-        currentUserId = m_auth.getCurrentUser().getUid();
-        usersRef = FirebaseDatabase.getInstance().getReference().child("Users").child(currentUserId);
-
+        usersRef = FirebaseDatabase.getInstance().getReference().child("Users").child(uid);
         tvStatus = findViewById(R.id.tvProfileStatus);
         tvUsername = findViewById(R.id.tvProfileUsername);
         tvFullName = findViewById(R.id.tvProfileFullName);
@@ -41,7 +50,26 @@ public class ProfileActivity extends AppCompatActivity
         tvDoB = findViewById(R.id.tvProfileDoB);
         tvGender = findViewById(R.id.tvProfileGender);
         tvRelationship = findViewById(R.id.tvProfileRelationship);
+        tvAge = findViewById(R.id.tvProfileAge);
+        tvLocation = findViewById(R.id.tvProfileLocation);
+        tvCategory = findViewById(R.id.tvProfileCategory);
         civProfilePic = findViewById(R.id.civProfileProfilePic);
+        btnMessage = findViewById(R.id.btnMessage);
+        toolbar = findViewById(R.id.tbProfile);
+        setSupportActionBar(toolbar);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        
+        btnMessage.setOnClickListener(new View.OnClickListener()
+        {
+            @Override
+            public void onClick(View v)
+            {
+                Intent intent = new Intent(ProfileActivity.this, ConversationActivity.class);
+                intent.putExtra("username", username);
+                intent.putExtra("ConvoKey", uid);
+                startActivity(intent);
+            }
+        });
 
         usersRef.addValueEventListener(new ValueEventListener()
         {
@@ -52,12 +80,27 @@ public class ProfileActivity extends AppCompatActivity
                 {
                     String image = dataSnapshot.child("profile_pic").getValue().toString();
                     String status = dataSnapshot.child("status").getValue().toString();
-                    String username = dataSnapshot.child("username").getValue().toString();
+                    username = dataSnapshot.child("username").getValue().toString();
                     String fullName = dataSnapshot.child("fullName").getValue().toString();
                     String country = dataSnapshot.child("country").getValue().toString();
                     String dob = dataSnapshot.child("dob").getValue().toString();
                     String gender = dataSnapshot.child("gender").getValue().toString();
                     String relationship = dataSnapshot.child("relationship").getValue().toString();
+                    if (dataSnapshot.hasChild("age"))
+                    {
+                        String age = dataSnapshot.child("age").getValue().toString();
+                        tvAge.setText(String.format("Age: %s", age));
+                    }
+                    if (dataSnapshot.hasChild("location"))
+                    {
+                        String location = dataSnapshot.child("location").getValue().toString();
+                        tvLocation.setText(String.format("Location: %s", location));
+                    }
+                    if (dataSnapshot.hasChild("category"))
+                    {
+                        String category = dataSnapshot.child("category").getValue().toString();
+                        tvCategory.setText(String.format("Category: %s", category));
+                    }
 
                     Picasso.get().load(image).placeholder(R.drawable.profile).into(civProfilePic);
                     tvStatus.setText(status);
@@ -67,6 +110,7 @@ public class ProfileActivity extends AppCompatActivity
                     tvDoB.setText(String.format("DOB: %s", dob));
                     tvGender.setText(String.format("Gender: %s", gender));
                     tvRelationship.setText(String.format("Relationship: %s", relationship));
+                    getSupportActionBar().setTitle(username);
                 }
             }
 

@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".ConversationActivity">
+
+    <include android:id="@+id/tbConversation"
+        layout="@layout/app_bar_layout"/>
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/tbConversation">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="300dp"
+                android:background="@color/colorProfile">
+
+                <de.hdodenhof.circleimageview.CircleImageView
+                    android:id="@+id/civConversationHeader"
+                    android:layout_width="150dp"
+                    android:layout_height="150dp"
+                    android:layout_centerHorizontal="true"
+                    android:src="@drawable/profile"
+                    android:layout_marginTop="20dp"
+                    app:civ_border_width="2dp"
+                    app:civ_border_color="@color/colorPrimaryDark"/>
+
+                <TextView
+                    android:id="@+id/tvConversationHeaderAgeLocation"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerHorizontal="true"
+                    android:layout_below="@id/civConversationHeader"
+                    android:textColor="@android:color/background_light"
+                    android:text="Age and location will go here..."
+                    android:layout_marginTop="15dp"
+                    android:textSize="18sp"/>
+
+                <TextView
+                    android:id="@+id/tvConversationCategory"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerHorizontal="true"
+                    android:layout_below="@id/tvConversationHeaderAgeLocation"
+                    android:textColor="@android:color/background_light"
+                    android:text="Category will go here..."
+                    android:layout_marginTop="15dp"
+                    android:textSize="18sp"/>
+
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/light_gray">
+
+                <android.support.v7.widget.RecyclerView
+                    android:id="@+id/rvConversationMessages"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"/>
+
+            </RelativeLayout>
+
+        </LinearLayout>
+
+    </ScrollView>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_alignParentBottom="true"
+        android:weightSum="100">
+
+        <EditText
+            android:id="@+id/etConversation"
+            android:background="@android:color/white"
+            android:layout_width="0dp"
+            android:layout_weight="85"
+            android:layout_height="50dp"
+            android:textSize="18sp"
+            android:textColor="@android:color/black"/>
+
+        <ImageButton
+            android:id="@+id/btnSend"
+            android:layout_width="0dp"
+            android:layout_height="50dp"
+            android:layout_weight="15"
+            android:background="@color/colorAccent"
+            android:src="@drawable/send"/>
+
+    </LinearLayout>
+
+
+</RelativeLayout>

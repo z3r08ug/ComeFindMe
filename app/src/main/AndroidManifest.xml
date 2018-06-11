@@ -31,12 +31,15 @@
         <activity
             android:name=".SettingsActivity"
             android:parentActivityName=".MainActivity" />
-        <activity android:name=".ProfileActivity" />
+        <activity android:name=".ProfileActivity"
+            android:parentActivityName=".MainActivity"/>
         <activity
             android:name=".FindPeopleActivity"
             android:parentActivityName=".MainActivity" />
         <activity android:name=".CommentsActivity" />
-        <activity android:name=".MessagesActivity"></activity>
+        <activity android:name=".MessagesActivity"
+            android:parentActivityName=".MainActivity"/>
+        <activity android:name=".ConversationActivity"></activity>
     </application>
 
 </manifest>

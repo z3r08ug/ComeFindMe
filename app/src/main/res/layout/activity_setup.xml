@@ -15,64 +15,128 @@
         android:layout_marginTop="25dp"
         android:src="@drawable/profile" />
 
-    <EditText
-        android:id="@+id/etSetupUsername"
+    <ScrollView
+        android:id="@+id/svSetup"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/civSetupProfilePic"
-        android:layout_centerHorizontal="true"
-        android:layout_centerVertical="true"
-        android:layout_marginLeft="7dp"
-        android:layout_marginRight="7dp"
-        android:layout_marginTop="5dp"
-        android:background="@drawable/inputs"
-        android:drawableLeft="@drawable/username"
-        android:ems="10"
-        android:hint="username..."
-        android:padding="14dp" />
+        android:layout_height="282dp"
+        android:layout_below="@id/civSetupProfilePic">
 
-    <EditText
-        android:id="@+id/etSetupFullName"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/etSetupUsername"
-        android:layout_centerHorizontal="true"
-        android:layout_centerVertical="true"
-        android:layout_marginLeft="7dp"
-        android:layout_marginRight="7dp"
-        android:layout_marginTop="5dp"
-        android:background="@drawable/inputs"
-        android:drawableLeft="@drawable/name"
-        android:ems="10"
-        android:hint="full name..."
-        android:inputType="textMultiLine"
-        android:padding="14dp" />
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
 
-    <EditText
-        android:id="@+id/etSetupCountry"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/etSetupFullName"
-        android:layout_centerHorizontal="true"
-        android:layout_centerVertical="true"
-        android:layout_marginLeft="7dp"
-        android:layout_marginRight="7dp"
-        android:layout_marginTop="5dp"
-        android:background="@drawable/inputs"
-        android:drawableLeft="@drawable/country"
-        android:ems="10"
-        android:hint="country..."
-        android:inputType="textMultiLine"
-        android:padding="14dp" />
+            <EditText
+                android:id="@+id/etSetupUsername"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:layout_marginLeft="7dp"
+                android:layout_marginRight="7dp"
+                android:layout_marginTop="5dp"
+                android:background="@drawable/inputs"
+                android:drawableStart="@drawable/username"
+                android:ems="10"
+                android:hint="username..."
+                android:padding="14dp" />
+
+            <EditText
+                android:id="@+id/etSetupFullName"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/etSetupUsername"
+                android:layout_centerHorizontal="true"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="7dp"
+                android:layout_marginRight="7dp"
+                android:layout_marginTop="5dp"
+                android:background="@drawable/inputs"
+                android:drawableStart="@drawable/name"
+                android:ems="10"
+                android:hint="full name..."
+                android:inputType="textMultiLine"
+                android:padding="14dp" />
+
+            <EditText
+                android:id="@+id/etSetupCountry"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/etSetupFullName"
+                android:layout_centerHorizontal="true"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="7dp"
+                android:layout_marginRight="7dp"
+                android:layout_marginTop="5dp"
+                android:background="@drawable/inputs"
+                android:drawableStart="@drawable/country"
+                android:ems="10"
+                android:hint="country..."
+                android:inputType="textMultiLine"
+                android:padding="14dp" />
+
+            <EditText
+                android:id="@+id/etSetupAge"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/etSetupCountry"
+                android:layout_centerHorizontal="true"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="7dp"
+                android:layout_marginRight="7dp"
+                android:layout_marginTop="5dp"
+                android:background="@drawable/inputs"
+                android:drawableStart="@drawable/name"
+                android:ems="10"
+                android:hint="Age..."
+                android:inputType="number"
+                android:padding="14dp" />
+
+            <EditText
+                android:id="@+id/etSetupLocation"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/etSetupAge"
+                android:layout_centerHorizontal="true"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="7dp"
+                android:layout_marginRight="7dp"
+                android:layout_marginTop="5dp"
+                android:background="@drawable/inputs"
+                android:drawableStart="@drawable/name"
+                android:ems="10"
+                android:hint="Location..."
+                android:inputType="textAutoComplete"
+                android:padding="14dp" />
+
+            <EditText
+                android:id="@+id/etSetupCategory"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/etSetupLocation"
+                android:layout_centerHorizontal="true"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="7dp"
+                android:layout_marginRight="7dp"
+                android:layout_marginTop="5dp"
+                android:background="@drawable/inputs"
+                android:drawableStart="@drawable/name"
+                android:ems="10"
+                android:hint="Category..."
+                android:inputType="text"
+                android:padding="14dp" />
+
+        </RelativeLayout>
+
+    </ScrollView>
 
     <Button
         android:id="@+id/btnSetupSave"
         android:layout_width="200dp"
         android:layout_height="wrap_content"
-        android:layout_below="@id/etSetupCountry"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="8dp"
+        android:layout_marginBottom="10dp"
         android:background="@drawable/button"
+        android:layout_alignParentBottom="true"
         android:padding="14dp"
         android:text="Save"
         android:textColor="@android:color/background_light"

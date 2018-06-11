@@ -7,6 +7,7 @@ import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -34,8 +35,9 @@ import de.hdodenhof.circleimageview.CircleImageView;
 public class SettingsActivity extends AppCompatActivity
 {
     private static final int GALLERY_PICK = 5;
+    private static final String TAG = String.format("%s_TAG", SettingsActivity.class.getSimpleName());
     private Toolbar toolbar;
-    private EditText etStatus, etUsername, etFullName, etCountry, etDoB, etGender, etLookingFor;
+    private EditText etStatus, etUsername, etFullName, etCountry, etDoB, etGender, etLookingFor, etAge, etLocation, etCategory;
     private CircleImageView civProfilePic;
     private Button btnUpdateSettings;
     private ProgressDialog loadingBar;
@@ -71,6 +73,9 @@ public class SettingsActivity extends AppCompatActivity
         etDoB = findViewById(R.id.etSettingsDoB);
         etGender = findViewById(R.id.etSettingsGender);
         etLookingFor = findViewById(R.id.etSettingsLookingFor);
+        etAge = findViewById(R.id.etSettingsAge);
+        etLocation = findViewById(R.id.etSettingsLocation);
+        etCategory = findViewById(R.id.etSettingsCategory);
         civProfilePic = findViewById(R.id.civSettingsProfilePic);
         btnUpdateSettings = findViewById(R.id.btnUpdateSettings);
 
@@ -93,6 +98,22 @@ public class SettingsActivity extends AppCompatActivity
                     String dob = dataSnapshot.child("dob").getValue().toString();
                     String gender = dataSnapshot.child("gender").getValue().toString();
                     String relationship = dataSnapshot.child("relationship").getValue().toString();
+                    
+                    if (dataSnapshot.hasChild("age"))
+                    {
+                        String age = dataSnapshot.child("age").getValue().toString();
+                        etAge.setText(age);
+                    }
+                    if (dataSnapshot.hasChild("location"))
+                    {
+                        String location = dataSnapshot.child("location").getValue().toString();
+                        etLocation.setText(location);
+                    }
+                    if (dataSnapshot.hasChild("category"))
+                    {
+                        String category = dataSnapshot.child("category").getValue().toString();
+                        etCategory.setText(category);
+                    }
 
                     etStatus.setText(status);
                     etUsername.setText(username);
@@ -231,6 +252,9 @@ public class SettingsActivity extends AppCompatActivity
         String dob = etDoB.getText().toString();
         String gender = etGender.getText().toString();
         String relationship = etLookingFor.getText().toString();
+        String age = etAge.getText().toString();
+        String location = etLocation.getText().toString();
+        String category = etCategory.getText().toString();
 
         if (status.isEmpty())
         {
@@ -260,6 +284,18 @@ public class SettingsActivity extends AppCompatActivity
         {
             Toast.makeText(this, "Please enter your relationship status...", Toast.LENGTH_SHORT).show();
         }
+        else if (age.isEmpty())
+        {
+            Toast.makeText(this, "Please enter your age...", Toast.LENGTH_SHORT).show();
+        }
+        else if (location.isEmpty())
+        {
+            Toast.makeText(this, "Please enter your location...", Toast.LENGTH_SHORT).show();
+        }
+        else if (category.isEmpty())
+        {
+            Toast.makeText(this, "Please enter a category...", Toast.LENGTH_SHORT).show();
+        }
         else
         {
             loadingBar.setTitle("Saving Profile Image");
@@ -267,11 +303,14 @@ public class SettingsActivity extends AppCompatActivity
             loadingBar.setCanceledOnTouchOutside(true);
             loadingBar.show();
 
-            updateAccountInfo(status, username, fullname, country, dob, gender, relationship);
+            updateAccountInfo(status, username, fullname, country, dob, gender, relationship, age, location, category);
         }
     }
 
-    private void updateAccountInfo(String status, String username, String fullname, String country, String dob, String gender, String relationship)
+    private void updateAccountInfo(String status, String username, String fullname,
+                                   String country, String dob, String gender,
+                                   String relationship, String age, String location,
+                                   String category)
     {
         HashMap userMap = new HashMap();
         userMap.put("status", status);
@@ -281,6 +320,9 @@ public class SettingsActivity extends AppCompatActivity
         userMap.put("dob", dob);
         userMap.put("gender", gender);
         userMap.put("relationship", relationship);
+        userMap.put("age", age);
+        userMap.put("location", location);
+        userMap.put("category", category);
 
         usersRef.updateChildren(userMap).addOnCompleteListener(new OnCompleteListener()
         {

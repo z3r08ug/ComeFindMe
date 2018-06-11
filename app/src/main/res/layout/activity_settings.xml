@@ -133,11 +133,57 @@
                 android:textSize="20sp"
                 android:textStyle="bold"/>
 
+            <EditText
+                android:id="@+id/etSettingsAge"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/etSettingsLookingFor"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:layout_marginTop="6dp"
+                android:background="@drawable/inputs"
+                android:hint="Age"
+                android:inputType="number"
+                android:padding="12dp"
+                android:textColor="@android:color/background_dark"
+                android:textSize="20sp"
+                android:textStyle="bold"/>
+
+            <EditText
+                android:id="@+id/etSettingsLocation"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/etSettingsAge"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:layout_marginTop="6dp"
+                android:background="@drawable/inputs"
+                android:hint="Location"
+                android:padding="12dp"
+                android:textColor="@android:color/background_dark"
+                android:textSize="20sp"
+                android:textStyle="bold"/>
+
+            <EditText
+                android:id="@+id/etSettingsCategory"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/etSettingsLocation"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:layout_marginTop="6dp"
+                android:background="@drawable/inputs"
+                android:hint="Category"
+                android:padding="12dp"
+                android:textColor="@android:color/background_dark"
+                android:textSize="20sp"
+                android:textStyle="bold"/>
+
             <Button
                 android:id="@+id/btnUpdateSettings"
                 android:layout_width="match_parent"
                 android:layout_height="60dp"
-                android:layout_below="@id/etSettingsLookingFor"
+                android:layout_below="@id/etSettingsCategory"
                 android:text="Update Account Settings"
                 android:layout_margin="20dp"
                 android:background="@drawable/button"

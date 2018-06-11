@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_marginTop="10dp"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <de.hdodenhof.circleimageview.CircleImageView
+        android:id="@+id/civConversationListProfilePic"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:src="@drawable/profile"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        app:civ_border_color="@color/colorPrimaryDark"
+        app:civ_border_width="2dp"/>
+
+    <TextView
+        android:id="@+id/tvConversationListUserName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="@android:color/black"
+        android:textStyle="bold"
+        android:layout_toRightOf="@id/civConversationListProfilePic"
+        android:text="Username"/>
+
+    <TextView
+        android:id="@+id/tvConversationListLastMessage"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/tvConversationListUserName"
+        android:textColor="@android:color/black"
+        android:layout_toRightOf="@id/civConversationListProfilePic"
+        android:text="Can I come over your house?"/>
+
+    <TextView
+        android:id="@+id/tvConversationListTimestamp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:text="timestamp"/>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="2dp"
+        android:background="@color/colorPrimaryDark"
+        android:layout_below="@id/civConversationListProfilePic"
+        android:layout_marginTop="10dp"/>
+
+</RelativeLayout>

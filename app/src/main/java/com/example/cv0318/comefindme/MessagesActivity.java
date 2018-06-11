@@ -12,19 +12,18 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
 import com.firebase.ui.database.FirebaseRecyclerOptions;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
-import com.google.firebase.database.ValueEventListener;
+import com.squareup.picasso.Picasso;
+
+import de.hdodenhof.circleimageview.CircleImageView;
 
 public class MessagesActivity extends AppCompatActivity
 {
@@ -45,7 +44,7 @@ public class MessagesActivity extends AppCompatActivity
 
         m_auth = FirebaseAuth.getInstance();
         currentUserId = m_auth.getCurrentUser().getUid();
-        messagesRef = FirebaseDatabase.getInstance().getReference().child("Users").child(currentUserId).child("Messages");
+        messagesRef = FirebaseDatabase.getInstance().getReference().child("Messages").child(currentUserId);
 
         toolbar = findViewById(R.id.tbMessages);
         setSupportActionBar(toolbar);
@@ -70,6 +69,7 @@ public class MessagesActivity extends AppCompatActivity
         linearLayoutManager.setStackFromEnd(true);
         rvConversations.setLayoutManager(linearLayoutManager);
 
+        displayAllConversations();
     }
 
     @Override
@@ -82,114 +82,95 @@ public class MessagesActivity extends AppCompatActivity
         }
     }
 
-    private void displayAllUsersPosts()
+    private void displayAllConversations()
     {
-        Log.d(TAG, "displayAllUsersPosts: ");
-        Query query = FirebaseDatabase.getInstance().getReference().child("Posts");
+        Log.d(TAG, "displayAllConversations: ");
+        Query query = messagesRef;
 
-        FirebaseRecyclerOptions<Posts> options = new FirebaseRecyclerOptions.Builder<Posts>()
-                .setQuery(query, Posts.class)
+        FirebaseRecyclerOptions<Conversation> options = new FirebaseRecyclerOptions.Builder<Conversation>()
+                .setQuery(query, Conversation.class)
                 .build();
 
-        firebaseRecyclerAdapter = new FirebaseRecyclerAdapter<Posts, MainActivity.PostsViewHolder>(options)
+        firebaseRecyclerAdapter = new FirebaseRecyclerAdapter<Conversation, ConversationsViewHolder>(options)
         {
             @Override
-            protected void onBindViewHolder(@NonNull MainActivity.PostsViewHolder holder, final int position, @NonNull Posts model)
+            protected void onBindViewHolder(@NonNull ConversationsViewHolder holder, final int position, @NonNull Conversation model)
             {
                 Log.d(TAG, "onBindViewHolder: model: " + model);
 
-                final String postKey = getRef(position).getKey();
-
-                holder.setFullName(model.getFullName());
-                holder.setTime(model.getTime());
-                holder.setDate(model.getDate());
-                holder.setDescription(model.getDescription());
-                holder.setProfileImage(model.getProfileImage());
-                holder.setPostImage(model.getPostImage());
-
-                holder.setLikeButtonStatus(postKey);
-
+                final String conversationKey = getRef(position).getKey();
+    
+                holder.setProfile_pic(model.getProfile_pic());
+                holder.setUsername(model.getUsername());
+                holder.setLastMessage(model.getLastMessage());
+                holder.setTimestamp(model.getTimestamp());
+                
                 holder.mView.setOnClickListener(new View.OnClickListener()
                 {
                     @Override
                     public void onClick(View v)
                     {
-                        Intent intent = new Intent(MessagesActivity.this, ClickPostActivity.class);
-                        intent.putExtra("PostKey", postKey);
-                        startActivity(intent);
-                    }
-                });
-
-                holder.btnComment.setOnClickListener(new View.OnClickListener()
-                {
-                    @Override
-                    public void onClick(View v)
-                    {
-                        Intent intent = new Intent(MessagesActivity.this, CommentsActivity.class);
-                        intent.putExtra("PostKey", postKey);
-                        startActivity(intent);
-                    }
-                });
-
-                holder.btnLike.setOnClickListener(new View.OnClickListener()
-                {
-                    @Override
-                    public void onClick(View v)
-                    {
-                        //likeChecker = true;
-
-                        messagesRef.addValueEventListener(new ValueEventListener()
-                        {
-                            @Override
-                            public void onDataChange(@NonNull DataSnapshot dataSnapshot)
-                            {
-
-                            }
-
-                            @Override
-                            public void onCancelled(@NonNull DatabaseError databaseError)
-                            {
-
-                            }
-                        });
+                        sendUserToConversationActivity(conversationKey);
                     }
                 });
             }
 
             @NonNull
             @Override
-            public MainActivity.PostsViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType)
+            public ConversationsViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType)
             {
                 Log.d(TAG, "onCreateViewHolder: ");
-                View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.all_posts_layout, parent, false);
-                return new MainActivity.PostsViewHolder(view);
+                View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.all_conversations_layout, parent, false);
+                return new ConversationsViewHolder(view);
             }
         };
         firebaseRecyclerAdapter.startListening();
         rvConversations.setAdapter(firebaseRecyclerAdapter);
     }
-
+    
+    private void sendUserToConversationActivity(String conversationKey)
+    {
+        Intent intent = new Intent(MessagesActivity.this, ConversationActivity.class);
+        intent.putExtra("ConvoKey", conversationKey);
+        startActivity(intent);
+    }
+    
     public static class ConversationsViewHolder extends RecyclerView.ViewHolder
     {
         View mView;
 
-        ImageButton btnLike, btnComment;
-        TextView tvLikeTotal;
-        int likeCount;
-        String currentUserId;
-        DatabaseReference likesRef;
+        TextView tvUsername, tvLastMessage, tvTimestamp;
+        CircleImageView civProfilePic;
 
         public ConversationsViewHolder(View itemView)
         {
             super(itemView);
             mView = itemView;
-
-            btnLike = mView.findViewById(R.id.btnLike);
-            btnComment = mView.findViewById(R.id.btnComment);
-            tvLikeTotal = mView.findViewById(R.id.tvLikeTotal);
-
-            likesRef = FirebaseDatabase.getInstance().getReference().child("Likes");
-            currentUserId = FirebaseAuth.getInstance().getCurrentUser().getUid();
+            
+            tvUsername = mView.findViewById(R.id.tvConversationListUserName);
+            tvLastMessage = mView.findViewById(R.id.tvConversationListLastMessage);
+            tvTimestamp = mView.findViewById(R.id.tvConversationListTimestamp);
+            civProfilePic = mView.findViewById(R.id.civConversationListProfilePic);
+        }
+        
+        public void setUsername(String username)
+        {
+            tvUsername.setText(username);
+        }
+        
+        public void setLastMessage(String message)
+        {
+            tvLastMessage.setText(message);
+        }
+        
+        public void setTimestamp(String timestamp)
+        {
+            tvTimestamp.setText(timestamp);
+        }
+    
+        public void setProfile_pic(String profile_pic)
+        {
+            Picasso.get().load(profile_pic).placeholder(R.drawable.profile).into(civProfilePic);
         }
     }
 }

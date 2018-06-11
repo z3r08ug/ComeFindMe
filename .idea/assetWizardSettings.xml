@@ -18,7 +18,7 @@
                                 <PersistentState>
                                   <option name="values">
                                     <map>
-                                      <entry key="url" value="jar:file:/Applications/Android%20Studio.app/Contents/plugins/android/lib/android.jar!/images/material_design_icons/content/ic_add_circle_outline_black_24dp.xml" />
+                                      <entry key="url" value="jar:file:/C:/Program%20Files/Android/Android%20Studio/plugins/android/lib/android.jar!/images/material_design_icons/content/ic_send_black_24dp.xml" />
                                     </map>
                                   </option>
                                 </PersistentState>
@@ -28,9 +28,9 @@
                         </option>
                         <option name="values">
                           <map>
-                            <entry key="color" value="0ee513" />
-                            <entry key="outputName" value="add" />
-                            <entry key="sourceFile" value="$USER_HOME$" />
+                            <entry key="color" value="d3d3d3" />
+                            <entry key="outputName" value="send" />
+                            <entry key="sourceFile" value="C:\Users\chris" />
                           </map>
                         </option>
                       </PersistentState>

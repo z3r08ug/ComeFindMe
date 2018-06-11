@@ -2,19 +2,30 @@ package com.example.cv0318.comefindme;
 
 public class FindPeople
 {
-    public String profile_pic, fullName, status;
-
-    public FindPeople(String profile_pic, String fullName, String status)
+    public String profile_pic, fullName, status, uid;
+    
+    public FindPeople(String profile_pic, String fullName, String status, String uid)
     {
         this.profile_pic = profile_pic;
         this.fullName = fullName;
         this.status = status;
+        this.uid = uid;
     }
-
+    
     public FindPeople()
     {
     }
-
+    
+    public String getUid()
+    {
+        return uid;
+    }
+    
+    public void setUid(String uid)
+    {
+        this.uid = uid;
+    }
+    
     public String getProfile_pic()
     {
         return profile_pic;
@@ -44,14 +55,5 @@ public class FindPeople
     {
         this.status = status;
     }
-
-    @Override
-    public String toString()
-    {
-        return "FindPeople{" +
-                "profile_pic='" + profile_pic + '\'' +
-                ", fullName='" + fullName + '\'' +
-                ", status='" + status + '\'' +
-                '}';
-    }
+    
 }

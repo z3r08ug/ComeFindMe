@@ -7,14 +7,18 @@
     android:background="@color/colorProfile"
     tools:context=".ProfileActivity">
 
+    <include android:id="@+id/tbProfile"
+        layout="@layout/app_bar_layout"/>
+
     <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_alignParentTop="true">
+        android:layout_height="wrap_content"
+        android:layout_below="@id/tbProfile"
+        android:layout_marginBottom="50dp">
 
         <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="wrap_content">
 
             <de.hdodenhof.circleimageview.CircleImageView
                 android:id="@+id/civProfileProfilePic"
@@ -109,8 +113,53 @@
                 android:textColor="@color/colorAccent"
                 android:textSize="18sp" />
 
+            <TextView
+                android:id="@+id/tvProfileAge"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/tvProfileRelationship"
+                android:layout_marginTop="2dp"
+                android:text="Age"
+                android:textAlignment="center"
+                android:textAllCaps="false"
+                android:textColor="@color/colorAccent"
+                android:textSize="18sp" />
+
+            <TextView
+                android:id="@+id/tvProfileLocation"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/tvProfileAge"
+                android:layout_marginTop="2dp"
+                android:text="Location"
+                android:textAlignment="center"
+                android:textAllCaps="false"
+                android:textColor="@color/colorAccent"
+                android:textSize="18sp" />
+
+            <TextView
+                android:id="@+id/tvProfileCategory"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/tvProfileLocation"
+                android:layout_marginTop="2dp"
+                android:layout_marginBottom="10dp"
+                android:text="Category"
+                android:textAlignment="center"
+                android:textAllCaps="false"
+                android:textColor="@color/colorAccent"
+                android:textSize="18sp" />
+
         </RelativeLayout>
 
     </ScrollView>
+
+    <Button
+        android:id="@+id/btnMessage"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_alignParentBottom="true"
+        android:background="@drawable/button"
+        android:text="Message"/>
 
 </RelativeLayout>

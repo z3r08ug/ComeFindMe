@@ -35,7 +35,7 @@ public class SetupActivity extends AppCompatActivity
 {
     private static final int GALLERY_PICK = 5;
     private static final String TAG = SetupActivity.class.getSimpleName() + "_TAG";
-    private EditText etUsername, etFullname, etCountry;
+    private EditText etUsername, etFullname, etCountry, etAge, etLocation, etCategory;
     private Button btnSave;
     private CircleImageView civProfilePic;
     private FirebaseAuth m_auth;
@@ -60,6 +60,9 @@ public class SetupActivity extends AppCompatActivity
         etUsername = findViewById(R.id.etSetupUsername);
         etFullname = findViewById(R.id.etSetupFullName);
         etCountry = findViewById(R.id.etSetupCountry);
+        etAge = findViewById(R.id.etSetupAge);
+        etLocation = findViewById(R.id.etSetupLocation);
+        etCategory = findViewById(R.id.etSetupCategory);
 
         btnSave = findViewById(R.id.btnSetupSave);
 
@@ -213,6 +216,9 @@ public class SetupActivity extends AppCompatActivity
         String username = etUsername.getText().toString();
         String fullname = etFullname.getText().toString();
         String country = etCountry.getText().toString();
+        String age = etAge.getText().toString();
+        String location = etLocation.getText().toString();
+        String category = etCategory.getText().toString();
 
         if (username.isEmpty())
         {
@@ -230,6 +236,18 @@ public class SetupActivity extends AppCompatActivity
         {
             Toast.makeText(this, "Please select a profile picture first...", Toast.LENGTH_SHORT).show();
         }
+        else if (age.isEmpty())
+        {
+            Toast.makeText(this, "Age needs to be filled out...", Toast.LENGTH_SHORT).show();
+        }
+        else if (location.isEmpty())
+        {
+            Toast.makeText(this, "Location needs to be filled out...", Toast.LENGTH_SHORT).show();
+        }
+        else if (category.isEmpty())
+        {
+            Toast.makeText(this, "Category needs to be filled out...", Toast.LENGTH_SHORT).show();
+        }
         else
         {
             loadingBar.setTitle("Saving Information");
@@ -246,6 +264,10 @@ public class SetupActivity extends AppCompatActivity
             userMap.put("dob", "none");
             userMap.put("relationship", "none");
             userMap.put("profile_pic", downloadUrl);
+            userMap.put("age", age);
+            userMap.put("location", location);
+            userMap.put("category", category);
+            userMap.put("uid", currentUserId);
 
             usersRef.updateChildren(userMap).addOnCompleteListener(new OnCompleteListener()
             {

@@ -34,7 +34,7 @@ public class FindPeopleActivity extends AppCompatActivity
     private RecyclerView rvSearchResults;
 
     private FirebaseAuth m_auth;
-    private String currentUserId;
+    private String currentUserId, uid;
     private FirebaseRecyclerAdapter firebaseRecyclerAdapter;
     private DatabaseReference allUsersRef;
 
@@ -47,7 +47,6 @@ public class FindPeopleActivity extends AppCompatActivity
         allUsersRef = FirebaseDatabase.getInstance().getReference().child("Users");
 
         m_auth = FirebaseAuth.getInstance();
-        currentUserId = m_auth.getCurrentUser().getUid();
 
         toolbar = findViewById(R.id.tbFindPeople);
         setSupportActionBar(toolbar);
@@ -86,7 +85,6 @@ public class FindPeopleActivity extends AppCompatActivity
 
         Query searchQuery = allUsersRef.orderByChild("fullName")
                 .startAt(criteria).endAt(criteria + "\uf8ff");
-//        Query query = FirebaseDatabase.getInstance().getReference().child("Posts");
         FirebaseRecyclerOptions<FindPeople> options = new FirebaseRecyclerOptions.Builder<FindPeople>()
                 .setQuery(searchQuery, FindPeople.class)
                 .build();
@@ -94,11 +92,11 @@ public class FindPeopleActivity extends AppCompatActivity
         firebaseRecyclerAdapter = new FirebaseRecyclerAdapter<FindPeople, FindPeopleViewHolder>(options)
         {
             @Override
-            protected void onBindViewHolder(@NonNull FindPeopleViewHolder holder, final int position, @NonNull FindPeople model)
+            protected void onBindViewHolder(@NonNull FindPeopleViewHolder holder, final int position, @NonNull final FindPeople model)
             {
                 Log.d("TAGGGG", "onBindViewHolder: model: " + model.toString());
 
-                final String postKey = getRef(position).getKey();
+                final String profileKey = getRef(position).getKey();
 
                 holder.setFullName(model.getFullName());
                 holder.setStatus(model.getStatus());
@@ -110,7 +108,7 @@ public class FindPeopleActivity extends AppCompatActivity
                     public void onClick(View v)
                     {
                         Intent intent = new Intent(FindPeopleActivity.this, ProfileActivity.class);
-                        intent.putExtra("PostKey", postKey);
+                        intent.putExtra("uid", profileKey);
                         startActivity(intent);
                     }
                 });
