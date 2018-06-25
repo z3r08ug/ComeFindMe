@@ -76,7 +76,10 @@ public class FindPeopleActivity extends AppCompatActivity
     protected void onStop()
     {
         super.onStop();
-        firebaseRecyclerAdapter.stopListening();
+        if (firebaseRecyclerAdapter != null)
+        {
+            firebaseRecyclerAdapter.stopListening();
+        }
     }
 
     private void searchPeople(String criteria)

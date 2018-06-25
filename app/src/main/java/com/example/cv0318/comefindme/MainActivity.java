@@ -157,7 +157,7 @@ public class MainActivity extends AppCompatActivity
         firebaseRecyclerAdapter = new FirebaseRecyclerAdapter<Posts, PostsViewHolder>(options)
         {
             @Override
-            protected void onBindViewHolder(@NonNull PostsViewHolder holder, final int position, @NonNull Posts model)
+            protected void onBindViewHolder(@NonNull PostsViewHolder holder, final int position, @NonNull final Posts model)
             {
                 Log.d(TAG, "onBindViewHolder: model: "+model);
 
@@ -170,9 +170,7 @@ public class MainActivity extends AppCompatActivity
                 holder.setProfileImage(model.getProfileImage());
                 holder.setPostImage(model.getPostImage());
 
-                holder.setLikeButtonStatus(postKey);
-
-                holder.mView.setOnClickListener(new View.OnClickListener()
+                holder.ivPostImage.setOnClickListener(new View.OnClickListener()
                 {
                     @Override
                     public void onClick(View v)
@@ -182,6 +180,19 @@ public class MainActivity extends AppCompatActivity
                         startActivity(intent);
                     }
                 });
+
+                holder.civProfilePic.setOnClickListener(new View.OnClickListener()
+                {
+                    @Override
+                    public void onClick(View v)
+                    {
+                        Intent intent = new Intent(MainActivity.this, ProfileActivity.class);
+                        intent.putExtra("uid", model.getUid());
+                        startActivity(intent);
+                    }
+                });
+
+                holder.setLikeButtonStatus(postKey);
 
                 holder.btnComment.setOnClickListener(new View.OnClickListener()
                 {
@@ -248,10 +259,12 @@ public class MainActivity extends AppCompatActivity
         View mView;
 
         ImageButton btnLike, btnComment;
+        ImageView ivPostImage;
         TextView tvLikeTotal;
         int likeCount;
         String currentUserId;
         DatabaseReference likesRef;
+        CircleImageView civProfilePic;
 
         public PostsViewHolder(View itemView)
         {
@@ -261,6 +274,8 @@ public class MainActivity extends AppCompatActivity
             btnLike = mView.findViewById(R.id.btnLike);
             btnComment = mView.findViewById(R.id.btnComment);
             tvLikeTotal = mView.findViewById(R.id.tvLikeTotal);
+            ivPostImage = mView.findViewById(R.id.ivPostImage);
+            civProfilePic = mView.findViewById(R.id.civPostProfileImage);
 
             likesRef = FirebaseDatabase.getInstance().getReference().child("Likes");
             currentUserId = FirebaseAuth.getInstance().getCurrentUser().getUid();
@@ -303,7 +318,6 @@ public class MainActivity extends AppCompatActivity
 
         public void setProfileImage(String profileImage)
         {
-            CircleImageView civProfilePic = mView.findViewById(R.id.civPostProfileImage);
             Picasso.get().load(profileImage).placeholder(R.drawable.profile).into(civProfilePic);
         }
 
@@ -327,7 +341,6 @@ public class MainActivity extends AppCompatActivity
 
         public void setPostImage(String postImage)
         {
-            ImageView ivPostImage = mView.findViewById(R.id.ivPostImage);
             Picasso.get().load(postImage).placeholder(R.drawable.profile).into(ivPostImage);
         }
     }
@@ -424,7 +437,7 @@ public class MainActivity extends AppCompatActivity
 
     private void sendUserToMessagesActivity()
     {
-        Intent intent = new Intent(MainActivity.this, MessagesActivity.class);
+        Intent intent = new Intent(MainActivity.this, ConversationsActivity.class);
         startActivity(intent);
     }
 

@@ -37,9 +37,10 @@
             android:name=".FindPeopleActivity"
             android:parentActivityName=".MainActivity" />
         <activity android:name=".CommentsActivity" />
-        <activity android:name=".MessagesActivity"
+        <activity android:name=".ConversationsActivity"
             android:parentActivityName=".MainActivity"/>
-        <activity android:name=".ConversationActivity"></activity>
+        <activity android:name=".ConversationActivity"
+            android:windowSoftInputMode="adjustPan"></activity>
     </application>
 
 </manifest>

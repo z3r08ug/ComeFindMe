@@ -9,12 +9,12 @@
 
     <ImageView
         android:id="@+id/ivAppLogo"
-        android:layout_width="110dp"
-        android:layout_height="110dp"
+        android:layout_width="200dp"
+        android:layout_height="200dp"
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="15dp"
-        android:src="@drawable/logo" />
+        android:src="@drawable/cfm" />
 
     <EditText
         android:id="@+id/etLoginEmail"

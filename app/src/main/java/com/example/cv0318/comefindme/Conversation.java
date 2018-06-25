@@ -1,69 +1,35 @@
 package com.example.cv0318.comefindme;
 
+import java.util.List;
+
 public class Conversation
 {
-    private String username, lastMessage, timestamp, profile_pic;
-    
-    public Conversation(String username, String lastMessage, String timestamp, String profile_pic)
+    private List<Message> messages;
+
+    public Conversation(List<Message> messages)
     {
-        this.username = username;
-        this.lastMessage = lastMessage;
-        this.timestamp = timestamp;
-        this.profile_pic = profile_pic;
+        this.messages = messages;
     }
-    
+
     public Conversation()
     {
     }
-    
-    public String getUsername()
+
+    public List<Message> getMessages()
     {
-        return username;
+        return messages;
     }
-    
-    public void setUsername(String username)
+
+    public void setMessages(List<Message> messages)
     {
-        this.username = username;
+        this.messages = messages;
     }
-    
-    public String getLastMessage()
-    {
-        return lastMessage;
-    }
-    
-    public void setLastMessage(String lastMessage)
-    {
-        this.lastMessage = lastMessage;
-    }
-    
-    public String getTimestamp()
-    {
-        return timestamp;
-    }
-    
-    public void setTimestamp(String timestamp)
-    {
-        this.timestamp = timestamp;
-    }
-    
-    public String getProfile_pic()
-    {
-        return profile_pic;
-    }
-    
-    public void setProfile_pic(String profile_pic)
-    {
-        this.profile_pic = profile_pic;
-    }
-    
+
     @Override
     public String toString()
     {
         return "Conversation{" +
-                "username='" + username + '\'' +
-                ", lastMessage='" + lastMessage + '\'' +
-                ", timestamp='" + timestamp + '\'' +
-                ", profile_pic='" + profile_pic + '\'' +
+                "messages=" + messages +
                 '}';
     }
 }
