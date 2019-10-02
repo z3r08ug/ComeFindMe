@@ -3,9 +3,9 @@ package com.example.cv0318.comefindme;
 import android.app.Dialog;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.support.annotation.NonNull;
-import android.support.v7.app.AlertDialog;
-import android.support.v7.app.AppCompatActivity;
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
+import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -14,6 +14,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.cv0318.comefindme.base.BaseActivity;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -22,23 +23,19 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.squareup.picasso.Picasso;
 
-public class ClickPostActivity extends AppCompatActivity
+public class ClickPostActivity extends BaseActivity
 {
     private ImageView ivClickPostImage;
     private TextView tvClickPostDescription;
     private Button btnDeletePost, btnEditPost;
     private DatabaseReference clickPostRef;
-    private FirebaseAuth m_auth;
-    private String postKey, currentUserId, databaseUserId, description, image;
+    private String postKey, databaseUserId, description, image;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_click_post);
-
-        m_auth = FirebaseAuth.getInstance();
-        currentUserId = m_auth.getCurrentUser().getUid();
 
         ivClickPostImage = findViewById(R.id.ivClickPostImage);
         tvClickPostDescription = findViewById(R.id.tvClickPostDescription);
@@ -65,7 +62,7 @@ public class ClickPostActivity extends AppCompatActivity
                     tvClickPostDescription.setText(description);
                     Picasso.get().load(image).placeholder(R.drawable.profile).into(ivClickPostImage);
 
-                    if (currentUserId.equals(databaseUserId))
+                    if (mUserId.equals(databaseUserId))
                     {
                         btnDeletePost.setVisibility(View.VISIBLE);
                         btnEditPost.setVisibility(View.VISIBLE);

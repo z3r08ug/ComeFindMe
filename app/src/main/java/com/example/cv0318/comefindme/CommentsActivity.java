@@ -1,11 +1,10 @@
 package com.example.cv0318.comefindme;
 
-import android.content.Intent;
-import android.support.annotation.NonNull;
-import android.support.v7.app.AppCompatActivity;
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -15,6 +14,7 @@ import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.cv0318.comefindme.base.BaseActivity;
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
 import com.firebase.ui.database.FirebaseRecyclerOptions;
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -31,15 +31,14 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.HashMap;
 
-public class CommentsActivity extends AppCompatActivity
+public class CommentsActivity extends BaseActivity
 {
     private static final String TAG = String.format("%s_TAG", CommentsActivity.class.getSimpleName());
     private ImageButton btnPostComment;
     private EditText etCommentBox;
     private RecyclerView rvComments;
-    private String postKey, currentUserId;
-    private DatabaseReference usersRef, postRef;
-    private FirebaseAuth m_auth;
+    private String postKey;
+    private DatabaseReference postRef;
     private FirebaseRecyclerAdapter firebaseRecyclerAdapter;
 
     @Override
@@ -49,12 +48,7 @@ public class CommentsActivity extends AppCompatActivity
         setContentView(R.layout.activity_comments);
 
         postKey = getIntent().getStringExtra("PostKey");
-
-        m_auth = FirebaseAuth.getInstance();
-        currentUserId = m_auth.getCurrentUser().getUid();
-        usersRef = FirebaseDatabase.getInstance().getReference().child("Users");
         postRef = FirebaseDatabase.getInstance().getReference().child("Posts").child(postKey).child("Comments");
-
 
         btnPostComment = findViewById(R.id.btnPostComment);
         etCommentBox = findViewById(R.id.etCommentBox);
@@ -70,7 +64,7 @@ public class CommentsActivity extends AppCompatActivity
             @Override
             public void onClick(View v)
             {
-                usersRef.child(currentUserId).addValueEventListener(new ValueEventListener()
+                mUsersRef.child(mUserId).addValueEventListener(new ValueEventListener()
                 {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot dataSnapshot)
@@ -194,10 +188,10 @@ public class CommentsActivity extends AppCompatActivity
             SimpleDateFormat currentTime = new SimpleDateFormat("HH:mm");
             final String saveCurrentTime = currentTime.format(callForTime.getTime());
 
-            final String randomKey = String.format("%s%s%s", currentUserId, saveCurrentDate, saveCurrentTime);
+            final String randomKey = String.format("%s%s%s", mUserId, saveCurrentDate, saveCurrentTime);
 
             HashMap commentsMap = new HashMap();
-            commentsMap.put("uid", currentUserId);
+            commentsMap.put("uid", mUserId);
             commentsMap.put("comment", comment);
             commentsMap.put("date", saveCurrentDate);
             commentsMap.put("time", saveCurrentTime);

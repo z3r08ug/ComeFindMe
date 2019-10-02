@@ -3,16 +3,17 @@ package com.example.cv0318.comefindme;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.net.Uri;
-import android.support.annotation.NonNull;
-import android.support.v7.app.AppCompatActivity;
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
-import android.support.v7.widget.Toolbar;
-import android.util.Log;
+import androidx.appcompat.widget.Toolbar;
+
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.example.cv0318.comefindme.base.BaseActivity;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
@@ -32,21 +33,15 @@ import java.util.HashMap;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
-public class SettingsActivity extends AppCompatActivity
+public class SettingsActivity extends BaseActivity
 {
     private static final int GALLERY_PICK = 5;
     private static final String TAG = String.format("%s_TAG", SettingsActivity.class.getSimpleName());
-    private Toolbar toolbar;
     private EditText etStatus, etUsername, etFullName, etCountry, etDoB, etGender, etLookingFor, etAge, etLocation, etCategory;
     private CircleImageView civProfilePic;
     private Button btnUpdateSettings;
-    private ProgressDialog loadingBar;
 
-    private FirebaseAuth m_auth;
-    private DatabaseReference usersRef;
-    private StorageReference userProfilePicRef;
-
-    private String currentUserId, downloadUrl;
+    private String downloadUrl;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -54,17 +49,10 @@ public class SettingsActivity extends AppCompatActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_settings);
 
-        m_auth = FirebaseAuth.getInstance();
-        currentUserId = m_auth.getCurrentUser().getUid();
-        usersRef = FirebaseDatabase.getInstance().getReference().child("Users").child(currentUserId);
-        userProfilePicRef = FirebaseStorage.getInstance().getReference().child("profile_pic");
-
-        toolbar = findViewById(R.id.tbSettings);
-        setSupportActionBar(toolbar);
+        mToolbar = findViewById(R.id.tbSettings);
+        setSupportActionBar(mToolbar);
         getSupportActionBar().setTitle("Account Settings");
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-
-        loadingBar = new ProgressDialog(this);
 
         etStatus = findViewById(R.id.etSettingsStatus);
         etUsername = findViewById(R.id.etSettingsUsername);
@@ -79,7 +67,7 @@ public class SettingsActivity extends AppCompatActivity
         civProfilePic = findViewById(R.id.civSettingsProfilePic);
         btnUpdateSettings = findViewById(R.id.btnUpdateSettings);
 
-        usersRef.addValueEventListener(new ValueEventListener()
+        mUsersRef.addValueEventListener(new ValueEventListener()
         {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot)
@@ -175,21 +163,21 @@ public class SettingsActivity extends AppCompatActivity
 
             if (resultCode == RESULT_OK)
             {
-                loadingBar.setTitle("Saving Profile Image");
-                loadingBar.setMessage("Please wait while we are updating your profile image...");
-                loadingBar.setCanceledOnTouchOutside(true);
-                loadingBar.show();
+                mLoadingBar.setTitle("Saving Profile Image");
+                mLoadingBar.setMessage("Please wait while we are updating your profile image...");
+                mLoadingBar.setCanceledOnTouchOutside(true);
+                mLoadingBar.show();
 
                 Uri resultUri = result.getUri();
 
-                StorageReference filePath = userProfilePicRef.child(currentUserId + ".png");
+                StorageReference filePath = mUserProfilePicRef.child(mUserId + ".png");
 
                 filePath.putFile(resultUri).addOnCompleteListener(new OnCompleteListener<UploadTask.TaskSnapshot>()
                 {
                     @Override
                     public void onComplete(@NonNull Task<UploadTask.TaskSnapshot> task)
                     {
-                        loadingBar.dismiss();
+                        mLoadingBar.dismiss();
 
                         if (task.isSuccessful())
                         {
@@ -207,7 +195,7 @@ public class SettingsActivity extends AppCompatActivity
                                 }
                             });
 
-                            usersRef.child("profile_pic").setValue(downloadUrl)
+                            mUsersRef.child("profile_pic").setValue(downloadUrl)
                                     .addOnCompleteListener(new OnCompleteListener<Void>()
                                     {
                                         @Override
@@ -298,10 +286,10 @@ public class SettingsActivity extends AppCompatActivity
         }
         else
         {
-            loadingBar.setTitle("Saving Profile Image");
-            loadingBar.setMessage("Please wait while we are updating your profile image...");
-            loadingBar.setCanceledOnTouchOutside(true);
-            loadingBar.show();
+            mLoadingBar.setTitle("Saving Profile Image");
+            mLoadingBar.setMessage("Please wait while we are updating your profile image...");
+            mLoadingBar.setCanceledOnTouchOutside(true);
+            mLoadingBar.show();
 
             updateAccountInfo(status, username, fullname, country, dob, gender, relationship, age, location, category);
         }
@@ -324,12 +312,12 @@ public class SettingsActivity extends AppCompatActivity
         userMap.put("location", location);
         userMap.put("category", category);
 
-        usersRef.updateChildren(userMap).addOnCompleteListener(new OnCompleteListener()
+        mUsersRef.updateChildren(userMap).addOnCompleteListener(new OnCompleteListener()
         {
             @Override
             public void onComplete(@NonNull Task task)
             {
-                loadingBar.dismiss();
+                mLoadingBar.dismiss();
 
                 if (task.isSuccessful())
                 {
